@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আস-সুন্নাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউট</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
+
+        :root {
+            --primary-color: #006A4E; /* Deeper Professional Green */
+            --secondary-color: #2E8B57; /* Sea Green */
+            --accent-color: #FDB813;   /* Golden Yellow for highlights */
+            --bg-color: #f8f9fa;      /* Off-white background */
+            --card-bg-color: #ffffff;
+            --text-color: #343a40;
+            --light-text-color: #fff;
+            --border-color: #dee2e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.9;
+            font-size: 17px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header --- */
+        .main-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text-color);
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--accent-color);
+        }
+        .main-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        /* --- View Sections --- */
+        .view {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Home View --- */
+        #home-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 65vh;
+            text-align: center;
+        }
+        #home-view h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            color: var(--light-text-color);
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 106, 78, 0.2);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 106, 78, 0.3);
+        }
+        .back-btn {
+            background: #6c757d;
+            margin-bottom: 25px;
+            box-shadow: none;
+        }
+        .back-btn:hover {
+            background: #5a6268;
+            box-shadow: none;
+        }
+
+        /* --- Course List View --- */
+        .section-title-wrapper {
+             text-align: center;
+             margin-bottom: 40px;
+        }
+        #course-list-view h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        #course-list-view h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        .intro-text {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background-color: var(--card-bg-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--secondary-color);
+        }
+        .course-card h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            font-weight: 600;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Course Detail View --- */
+        #course-detail-content {
+            background-color: var(--card-bg-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        #course-detail-content h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        #course-detail-content h3 {
+            color: var(--secondary-color);
+            font-size: 1.7rem;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+         #course-detail-content h4 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        #course-detail-content p {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        #course-detail-content ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        #course-detail-content li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        #course-detail-content li::before {
+            content: '✓';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+        #course-detail-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        #course-detail-content a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+         #course-detail-content a:hover {
+            text-decoration: underline;
+         }
+
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 50px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .footer-content h3 {
+            font-size: 2rem;
+            color: var(--light-text-color);
+            margin-bottom: 25px;
+        }
+        .social-links a {
+            color: var(--light-text-color);
+            margin: 0 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #495057;
+            font-size: 0.95rem;
+        }
+        .footer-addresses {
+            margin-top: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-addresses p {
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+            .main-header h1 { font-size: 2rem; }
+            #home-view h2 { font-size: 2.5rem; }
+            #course-list-view h2, #course-detail-content h2 { font-size: 2rem; }
+            #course-detail-content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <h1>আস-সুন্নাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউট</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home View -->
+        <section id="home-view" class="view active">
+            <h2>দক্ষতাই সমৃদ্ধির চাবিকাঠি</h2>
+            <button id="show-courses-btn" class="btn">আমাদের কোর্স সমূহ দেখুন</button>
+        </section>
+
+        <!-- Course List View -->
+        <section id="course-list-view" class="view">
+            <div class="section-title-wrapper">
+                <h2>আমাদের কোর্স সমূহ</h2>
+            </div>
+            <p class="intro-text">বর্তমানে আমাদের দশটি কোর্স চলমান রয়েছে। আমাদের বর্তমান কোর্সগুলো সম্পূর্ণ আবাসিক কোর্স। অনাবাসিক কিংবা অনলাইন কোনো কোর্স বর্তমানে চালু নেই।</p>
+            <div class="course-grid">
+                <!-- Course cards will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Course Detail View -->
+        <section id="course-detail-view" class="view">
+            <button id="back-to-list-btn" class="btn back-btn">&larr; সকল কোর্সে ফিরে যান</button>
+            <div id="course-detail-content">
+                <!-- Course details will be injected here by JavaScript -->
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <h3>যোগাযোগ</h3>
+            <div class="social-links">
+                <a href="https://www.facebook.com/assunnahskill" target="_blank">ফেসবুক</a>
+                <a href="https://www.youtube.com/@assunnahskill" target="_blank">ইউটিউব</a>
+                <a href="https://t.me/assunnahskill" target="_blank">টেলিগ্রাম</a>
+                 <a href="https://x.com/assunnahskill" target="_blank">টুইটার (এক্স)</a>
+            </div>
+             <p style="margin-top:25px; color: #fff;"><strong>সাধারণ যোগাযোগ:</strong> 01409979967 (হোয়াটসঅ্যাপ)</p>
+             <div class="footer-addresses">
+                <h4>অফিসের ঠিকানা:</h4>
+                <p><strong>সাধারণ:</strong> ঢাকা, উত্তর বাড্ডা, সাতারকুল রোড, আলী নগর গেইটের বিপরীত পাশের বিল্ডিং।</p>
+                <p><strong>স্মার্ট টেইলারিং এন্ড ফ্যাশন ডিজাইন কোর্স:</strong> আফতাবনগর, ব্লক সি, আস-সুন্নাহ ফাউন্ডেশন।</p>
+                <p><strong>ড্রাইভিং, জুতা শিল্প, শেফ, ল্যাঙ্গুয়েজ কোর্স:</strong> প্লট: ইউ-৪, রোড: স্বাধীনতা সরণি, ব্লক-ডি, সানভ্যালী আবাসন, সাতারকুল, বাড্ডা, ঢাকা-১২১২</p>
+             </div>
+            <div class="footer-bottom">
+                <p>&copy; ২০২৪ আস-সুন্নাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউট। সর্বস্বত্ব সংরক্ষিত।</p>
+                 <p>এটি আস-সুন্নাহ ফাউন্ডেশনের একটি অঙ্গ প্রতিষ্ঠান।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const coursesData = [
+            {
+                id: 'course-1',
+                title: 'স্মল বিজনেস ম্যানেজমেন্ট কোর্স',
+                short_desc: 'কম্পিউটার বিষয়ক (পুরুষ-আবাসিক, তিনমাস মেয়াদী)',
+                details: `
+                    <h2>স্মল বিজনেস ম্যানেজমেন্ট কোর্স</h2>
+                    <h4>আবেদনের যোগ্যতা:</h4>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> এইচএসসি/আলিম/সানাবিয়া তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                    <h4>কোর্সের ধরন:</h4>
+                    <ul>
+                        <li><strong>আবাসিক</strong></li>
+                        <li><strong>কোর্সের মেয়াদ:</strong> তিন মাস</li>
+                        <li><strong>ক্যাটাগরি:</strong> পুরুষ</li>
+                    </ul>
+                    <h3>কোর্সের বিষয়:</h3>
+                    <ul>
+                        <li>মাইক্রোসফট অফিস</li>
+                        <li>প্রাকটিক্যাল অ্যাকাউন্টিং</li>
+                        <li>গ্রাফিক ডিজাইন</li>
+                        <li>ক্রিয়েটিভ মার্কেটিং</li>
+                        <li>ভিডিও এডিটিং</li>
+                        <li>জেনারেটিভ এআই টুলস</li>
+                        <li>প্রাকটিক্যাল ইংলিশ</li>
+                        <li>মৌলিক দীনি জ্ঞান</li>
+                    </ul>
+                    <p><strong>উল্লেখ্য,</strong> ১ম দিন থেকে প্রত্যেকেই এই ৮টি সাবজেক্টের উপর ক্লাস করবেন এবং প্রশিক্ষণার্থীদের প্রথম ৩০ দিনের পারফরম্যান্সের উপর ভিত্তি করে দুইটি আলাদা গ্রুপে ভাগ করা হবে। যা গ্রাফিক ডিজাইন গ্রুপ এবং অ্যাকাউন্টিং গ্রুপ নামে পরিচিত। বাকি ৬০ দিন এই পৃথক গ্রুপে প্রশিক্ষণ চালিয়ে যাবেন।</p>
+                    
+                    <h4>গ্রাফিক ডিজাইন গ্রুপের বিষয়সমূহ:</h4>
+                    <ul>
+                        <li>গ্রাফিক ডিজাইন</li>
+                        <li>প্রাকটিক্যাল ইংলিশ</li>
+                        <li>ক্রিয়েটিভ মার্কেটিং</li>
+                        <li>ভিডিও এডিটিং</li>
+                        <li>মৌলিক দীনি জ্ঞান</li>
+                    </ul>
+
+                    <h4>অ্যাকাউন্টিং গ্রুপের বিষয়সমূহ:</h4>
+                    <ul>
+                        <li>প্রাকটিক্যাল অ্যাকাউন্টিং</li>
+                        <li>মাইক্রোসফট এডভান্সড এক্সেল</li>
+                        <li>অফিস এন্ড ওয়ার্কপ্লেস ম্যানেজমেন্ট</li>
+                        <li>প্রাকটিক্যাল ইংলিশ</li>
+                        <li>মৌলিক দীনি জ্ঞান</li>
+                    </ul>
+
+                    <p><strong>বিশেষ কোর্স:</strong> এই তিন মাসে আরও ১৬টি শর্ট কোর্স অনুষ্ঠিত হবে, এবং প্রতিটি কোর্সের শেষে আলাদা সার্টিফিকেট প্রদান করা হবে, ইন শা আল্লাহ।</p>
+
+                    <h3>কোর্স ফি এবং আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১০,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>আবাসন ও প্রশিক্ষণ ফি:</strong> ৫০,০০০ টাকা (৫০ হাজার টাকা থেকে আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে সর্বোচ্চ ১০০% স্কলারশিপ পাওয়ার সুযোগ রয়েছে। তবে ১০ হাজার টাকা ভর্তি ফি সবাইকে দিতে হবে।)</li>
+                    </ul>
+                    <p><strong>উল্লেখ্য,</strong> ভর্তি হওয়ার পর কোর্স সম্পন্ন না করলে পুরো কোর্স ফি পরিশোধ করা বাধ্যতামূলক।</p>
+
+                    <h3>আবেদন প্রক্রিয়া:</h3>
+                    <p>১. গুগল ফর্ম পূরণ করে অনলাইন পরীক্ষায় অংশগ্রহণ করুন।</p>
+                    <p>২. অনলাইন পরীক্ষার লিংক ইমেইল এবং মোবাইল নাম্বারে পাঠানো হবে।</p>
+                    <p>৩. অনলাইন পরীক্ষায় উত্তীর্ণ হলে রিটেন এবং ভাইভা পরীক্ষার জন্য ইনস্টিটিউটে সরাসরি অংশগ্রহণ করতে হবে।</p>
+                    
+                    <h3>সার্বিক যোগাযোগ:</h3>
+                    <p><strong>01409979967</strong></p>
+                `
+            },
+            {
+                id: 'course-2',
+                title: 'স্মার্ট টেইলারিং অ্যান্ড ফ্যাশন ডিজাইন কোর্স',
+                short_desc: 'মহিলা-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>স্মার্ট টেইলারিং অ্যান্ড ফ্যাশন ডিজাইন কোর্স</h2>
+                    
+                    <h3>কোর্সের বিষয় সমূহ:</h3>
+                    <ul>
+                        <li>টেইলারিং</li>
+                        <li>টাই-ডাই</li>
+                        <li>ব্লক-বাটিক</li>
+                        <li>হ্যান্ড এমব্রয়ডারি ও ক্র্যাফটিং</li>
+                        <li>ফ্যাশন ডিজাইন (বেসিক)</li>
+                        <li>বিজনেস ডেভেলপমেন্ট (বেসিক)</li>
+                    </ul>
+                    <p>কোর্স চলাকালে সার্বক্ষণিক একজন আলেমার তত্ত্বাবধানে দীনের মৌলিক বিষয়সমূহ শিক্ষা দেয়া হবে।</p>
+                    
+                    <h3>ভর্তি প্রক্রিয়া:</h3>
+                    <p>স্মার্ট টেইলারিং ও ফ্যাশান ডিজাইন কোর্সের ভর্তি সার্কুলারে গুগল ফর্ম পূরণ করে আবেদন করতে হবে।</p>
+
+                    <h3>কোর্স সম্পর্কে:</h3>
+                    <ul>
+                        <li><strong>কোর্সের মেয়াদ:</strong> ৩ মাস</li>
+                        <li><strong>ভর্তি ফি:</strong> ৫,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>আবাসন ও খাবার:</strong> ৩০ হাজার টাকা।</li>
+                        <li><strong>প্রশিক্ষণ ফি:</strong> ২৫ হাজার টাকা।</li>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> এসএসসি/সমমান ও তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> ১৮ থেকে ৩৫</li>
+                    </ul>
+                    <p>আর্থিকভাবে অসচ্ছল বোনদের সর্বোচ্চ ১০০% পর্যন্ত স্কলারশিপ দেওয়া হবে।</p>
+                    <p><strong>বিশেষ দ্রষ্টব্য:</strong> কোর্সটি সম্পূর্ণ আবাসিক। আস-সুন্নাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউটের পক্ষ থেকে নারীদের নিরাপদ এবং উপযোগী আবাসন ও স্বাস্থ্যকর খাবারের ব্যবস্থা রয়েছে।</p>
+                    
+                    <h3>ভর্তি সার্কুলার:</h3>
+                    <p>অতিশীঘ্রই নতুন ব্যাচের ভর্তি সার্কুলার আমাদের ফেইসবুক পেইজে প্রকাশ করা হবে ইন শা আল্লাহ।</p>
+
+                    <h3>যোগাযোগ (শুধু নারীরা):</h3>
+                    <p><strong>01409979954</strong></p>
+                `
+            },
+            {
+                id: 'course-3',
+                title: 'দি আর্ট অব সেলস অ্যান্ড মার্কেটিং কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>দি আর্ট অব সেলস অ্যান্ড মার্কেটিং কোর্স</h2>
+                    <p>The Art of Sales & Marketing কোর্সটিতে রয়েছে সেলস এবং মার্কেটিং এর খুঁটি নাটি সকল তথ্য। শিখতে পারবেন কিভাবে দেশ ও বিশ্বসেরা বিক্রয়কর্মীরা তাদের পন্য বিক্রি করছেন, কিভাবে একটি পন্যকে ব্র্যান্ড হিসেবে গড়ে তুলে যায়, কিভাবে সামাজিক যোগাযোগ মাধ্যম এবং অফলাইন মার্কেটে একটি পন্যকে সফল ভাবে বিক্রি করা যায়। এর পাশাপাশি শিখতে পারবেন দেশ সেরা প্রতিষ্ঠান গুলোতে বিক্রয়কর্মী হিসেবে চাকরি পাবার কৌশল অথবা নিজ ব্যবসার পন্য বিক্রি বৃদ্ধির কৌশল।</p>
+                    
+                    <h3>এই কোর্সে যা যা শিখবেন:</h3>
+                    <ul>
+                        <li>নিজের ব্যবসাকে ১০ গুণ বড় করার কৌশল</li>
+                        <li>সফল উদ্যোক্তা হবার রোডম্যাপ</li>
+                        <li>দেশসেরা সেলস প্রফেশনালদের কাছ থেকে হাতেকলমে শেখা</li>
+                        <li>রাস্তায়, দোকানে, অফিসে গিয়ে রিয়েল সেলিং অভিজ্ঞতা</li>
+                        <li>কাস্টমার হ্যান্ডলিং লাইভ এক্সপেরিয়েন্স</li>
+                        <li>কল সেন্টার ট্রেনিং</li>
+                        <li>হাতে-কলমে ডিজিটাল মার্কেটিং</li>
+                        <li>ChatGPT দিয়ে স্মার্ট মার্কেটিং</li>
+                        <li>পার্সোনাল ব্র্যান্ডিং গাইড – নিজের ক্যারিয়ার গড়ার চাবিকাঠি</li>
+                        <li>কোর্স শেষে চাকরির সুযোগ (যোগ্যতা অনুযায়ী)</li>
+                    </ul>
+
+                    <h4>বোনাস পাওনা:</h4>
+                    <ul>
+                        <li>মাইক্রোসফট অফিস</li>
+                        <li>প্রেজেন্টেশন দক্ষতা</li>
+                        <li>চাকরি খোঁজার স্ট্র্যাটেজি</li>
+                        <li>অফিস এটিকেট</li>
+                        <li>প্র্যাকটিকাল ইংলিশ</li>
+                        <li>মৌলিক দ্বীনি শিক্ষা</li>
+                    </ul>
+
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li>স্নাতক বা সমমানের অধ্যয়নরত অথবা তদূর্ধ্ব সার্টিফিকেটধারী</li>
+                        <li><strong>মাদরাসা শিক্ষার্থীদের ক্ষেত্রে:</strong> দাওরায়ে হাদীস (তাকমীল) চলমান বা সমাপ্ত করেছেন এমন শিক্ষার্থীরা।</li>
+                        <li><strong>বয়সসীমা:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                    
+                    <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                       <li><strong>কোর্সের ধরন:</strong> আবাসিক</li>
+                       <li><strong>কোর্সের মেয়াদ:</strong> ৩ মাস</li>
+                       <li><strong>ক্যাটাগরি:</strong> শুধুমাত্র পুরুষ</li>
+                    </ul>
+
+                    <h3>কোর্স ফি ও আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১০,০০০ টাকা (বাধ্যতামূলক)</li>
+                        <li><strong>খাবার, আবাসন ও প্রশিক্ষন ফি:</strong> ৬০,০০০ টাকা (আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে সর্বোচ্চ ১০০% স্কলারশিপ পাওয়ার সুযোগ রয়েছে।)</li>
+                    </ul>
+                    
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01862534626</strong></p>
+                `
+            },
+            {
+                id: 'course-4',
+                title: 'জুতাশিল্পে উদ্যোক্তা কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>জুতা শিল্পের উদ্যোক্তা কোর্স</h2>
+                    <h3>কোর্সের বিষয়:</h3>
+                    <ul>
+                        <li>ফুটওয়্যার শিল্পের পরিচিতি</li>
+                        <li>ফুটওয়্যার ডিজাইনের মৌলিক ধারণা</li>
+                        <li>উপকরণ এবং প্রযুক্তি</li>
+                        <li>২০ এর অধিক জুতার ডিজাইন হাতে কলমে প্রশিক্ষণের সুযোগ</li>
+                        <li>ফুটওয়্যার ব্যবসা ও বিপণন</li>
+                    </ul>
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> এসএসসি/সানাবিয়া তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                     <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                       <li><strong>কোর্সের ধরন:</strong> আবাসিক</li>
+                       <li><strong>কোর্সের মেয়াদ:</strong> চার মাস</li>
+                       <li><strong>ক্যাটাগরি:</strong> পুরুষ</li>
+                    </ul>
+                    <h3>কোর্স ফি এবং আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১৫,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>আবাসন ও প্রশিক্ষণ ফি:</strong> ৬০,০০০ টাকা (আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে স্কলারশিপের সুযোগ রয়েছে।)</li>
+                    </ul>
+                    <p>সফলভাবে প্রশিক্ষণ শেষে, দক্ষ ও যোগ্য প্রশিক্ষণার্থীদের উদ্যোক্তা হিসেবে গড়ে তুলতে আস-সুন্নাহ ফাউন্ডেশনের পক্ষ থেকে আর্থিক সহযোগিতা প্রদান করা হবে ইন-শা-আল্লাহ।</p>
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01897664280 / 01897664281</strong></p>
+                `
+            },
+            {
+                id: 'course-5',
+                title: 'আস-সুন্নাহ গুলজার বাহার খানম ড্রাইভিং কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, ৪৫ দিন মেয়াদী',
+                details: `
+                    <h2>আস-সুন্নাহ গুলজার বাহার খানম ড্রাইভিং কোর্স</h2>
+                    <p>নিজেকে একজন দক্ষ ও আত্মবিশ্বাসী ড্রাইভার হিসেবে গড়ে তুলতে আস-সুন্নাহ গুলজার বাহার খানম ড্রাইভিং স্কুল নিয়ে এসেছে ড্রাইভিং প্রশিক্ষণ কোর্স। আমাদের প্রশিক্ষণ কোর্স আপনাকে পেশাদার ড্রাইভিং ক্যারিয়ারে পৌঁছে দিতে সহায়তা করবে।</p>
+                    
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> ন্যূনতম দশম শ্রেণি পাস।</li>
+                        <li><strong>বয়স:</strong> ২১ থেকে ৩২ বছর।</li>
+                        <li>শারীরিক ও মানসিকভাবে সুস্থ।</li>
+                    </ul>
+
+                    <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                        <li><strong>কোর্সের ধরণ:</strong> আবাসিক</li>
+                        <li><strong>কোর্সের মেয়াদ:</strong> ৪৫ দিন (১ম ধাপ: ৪০ দিন, ২য় ধাপ: ৫ দিন লাইসেন্স পরীক্ষার পূর্বে)</li>
+                        <li><strong>ক্যাটাগরি:</strong> শুধুমাত্র পুরুষ</li>
+                    </ul>
+                    
+                    <h3>কোর্সে যা শিখানো হবে:</h3>
+                    <ul>
+                        <li>গাড়ি চালনার তাত্ত্বিক ও ব্যবহারিক প্রশিক্ষণ</li>
+                        <li>যন্ত্রাংশের পরিচিতি</li>
+                        <li>গাড়ির রক্ষণাবেক্ষণ ও ট্রাফিক নিয়মকানুন</li>
+                        <li>বিআরটিএ নিবন্ধিত প্রফেশনাল অভিজ্ঞ ট্রেইনার দ্বারা অটো ও ম্যানুয়াল গাড়ি চালানো</li>
+                        <li>বাংলাদেশ ড্রাইভিং লাইসেন্সের লিখিত, মৌখিক ও ব্যবহারিক পরীক্ষার প্রস্তুতি</li>
+                        <li>মৌলিক ইসলামিক শিক্ষা</li>
+                    </ul>
+                    
+                    <h3>কোর্সের ফি ও আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ৫,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>প্রশিক্ষণ, খাবার ও আবাসন ফি:</strong> ২৫,০০০ টাকা</li>
+                        <li><strong>লাইসেন্স ফি:</strong> সরকার নির্ধারিত ফি প্রশিক্ষনার্থীকে বহন করতে হবে।</li>
+                    </ul>
+                    <p><strong>বিশেষ সুবিধা:</strong> আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে সর্বোচ্চ ১০০% পর্যন্ত স্কলারশিপ পাওয়ার সুযোগ রয়েছে। তবে ভর্তি ফি ৫,০০০ টাকা সকলের জন্য বাধ্যতামূলক।</p>
+                    
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>০১৪০৯৯৭৯৯৫৩</strong></p>
+                `
+            },
+            {
+                id: 'course-6',
+                title: 'প্রফেশনাল কুকিং অ্যান্ড ক্যাটারিং ম্যানেজমেন্ট কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>প্রফেশনাল কুকিং অ্যান্ড ক্যাটারিং ম্যানেজমেন্ট কোর্স</h2>
+                    <h3>এই কোর্সে যা যা থাকছে:</h3>
+                    <ul>
+                        <li>প্রতিদিন ১২-১৪ ঘণ্টার তাত্ত্বিক ও ব্যবহারিক প্রশিক্ষণ</li>
+                        <li>২৪ ঘণ্টার সার্বক্ষণিক মেন্টর সাপোর্ট</li>
+                        <li>প্রশিক্ষণ চলাকালীন প্রশিক্ষণার্থীদের জন্য আবাসিক সুবিধা</li>
+                        <li>ট্রেনিং সময়ের বাইরে শিক্ষার্থীদের নৈতিক উন্নতির জন্য মৌলিক ইসলামিক শিক্ষার ব্যবস্থা</li>
+                    </ul>
+                    <h3>কোর্সটি করে যা শিখবেন:</h3>
+                    <ul>
+                        <li>কার্যকর সময় ব্যবস্থাপনার মাধ্যমে বৃহৎ পরিসরে পরিমাণ মতো বিভিন্ন দেশীয় খাবার রান্নার কৌশল</li>
+                        <li>ইন্ডাস্ট্রিয়াল কিচেন পরিচালনা, আধুনিক ক্যাটারিং সরঞ্জাম ও প্রযুক্তির ব্যবহার</li>
+                        <li>বিভিন্ন বৈদেশিক খাবার তৈরি, যেমন: থাই, চাইনিজ, অ্যারাবিয়ান, কন্টিনেন্টাল ইত্যাদি</li>
+                        <li>বিভিন্ন ধরনের ফাস্টফুড, ডেসার্ট ও বেকারি আইটেম তৈরির মৌলিক ধারণা</li>
+                        <li>খাবারের স্বাস্থ্যকর দিক, পুষ্টি সম্পর্কিত জ্ঞান এবং খাবারের উপস্থাপনা ও সজ্জা</li>
+                    </ul>
+                    <h3>প্রয়োজনীয় যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> জেনারেল শিক্ষার্থীদের ক্ষেত্রে ন্যূনতম এসএসসি ও তদূর্ধ্ব, মাদ্রাসা শিক্ষার্থীদের ক্ষেত্রে কাফিয়া ও তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> অনূর্ধ্ব ৩০ বছর</li>
+                    </ul>
+                    <h3>ভর্তি ও কোর্স ফি:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১০,০০০ টাকা (বাধ্যতামূলক)</li>
+                        <li><strong>প্রশিক্ষণ ফি:</strong> ৩০,০০০ টাকা (আর্থিক অবস্থা বিবেচনায় সর্বোচ্চ ১০০% পর্যন্ত স্কলারশিপ)</li>
+                        <li><strong>আবাসন ও খাবার:</strong> ২০,০০০ টাকা (আর্থিক অবস্থা বিবেচনায় সর্বোচ্চ ১০০% পর্যন্ত স্কলারশিপ)</li>
+                    </ul>
+                    <p><strong>উল্লেখ্য:</strong> ভর্তি হওয়ার পর কোর্স সম্পন্ন না করলে পুরো কোর্স ফি পরিশোধ করা বাধ্যতামূলক।</p>
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01958277644</strong> (সকাল ১১ টা থেকে বিকাল ৫ টা)</p>
+                `
+            },
+            {
+                id: 'course-7',
+                title: 'ল্যাঙ্গুয়েজ অ্যান্ড লিডারশিপ ফাউন্ডেশন কোর্স',
+                short_desc: 'এক বছর মেয়াদী, পুরুষ-আবাসিক',
+                details: `
+                    <h2>ল্যাঙ্গুয়েজ অ্যান্ড লিডারশিপ ফাউন্ডেশন কোর্স</h2>
+                    <h3>কোর্সের তথ্য:</h3>
+                    <ul>
+                        <li><strong>মেয়াদ:</strong> ১ বছর (প্রথম ৬ মাস: সমন্বিত ভাষা শিক্ষা, পরবর্তী ৬ মাস: বিশেষ ভাষা ও পেশাগত দক্ষতা অর্জন)</li>
+                        <li><strong>কোর্সের ধরণ:</strong> আবাসিক</li>
+                        <li><strong>বয়সসীমা:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                    <h3>যোগ্যতা:</h3>
+                    <ul>
+                        <li>অনার্স ২য় বর্ষ অথবা তদূর্ধ্ব</li>
+                        <li>দাওরায়ে হাদিস/ ফাজিল বা সমমানের শিক্ষাগত যোগ্যতা</li>
+                    </ul>
+                    <h3>কোর্সের বিষয়বস্তু:</h3>
+                    <ul>
+                        <li><strong>নেতৃত্ব বিষয়ক দক্ষতা:</strong> পার্সোনাল লিডারশিপ, কমিউনিকেশন স্কিল, ডিসিশন মেকিং ইত্যাদি।</li>
+                        <li><strong>ভাষাগত দক্ষতা:</strong> ইংরেজি (IELTS 7+), আরবি (মৌলিক ও পেশাগত), বাংলা (শুদ্ধ উচ্চারণ)।</li>
+                        <li><strong>বেসিক কম্পিউটার স্কিল:</strong> Microsoft Office, ডিজিটাল কমিউনিকেশন, সাইবার সিকিউরিটি।</li>
+                        <li><strong>বাস্তব অভিজ্ঞতা:</strong> ওয়ার্কশপ, সেমিনার, প্রজেক্ট, পাবলিক স্পিকিং।</li>
+                        <li><strong>কর্পোরেট ম্যানার ও বিহেভিয়ার:</strong> প্রফেশনাল এটিকেট, অফিসিয়াল কমিউনিকেশন, নেটওয়ার্কিং।</li>
+                        <li><strong>জেনারেটিভ এআই ও ভবিষ্যৎ দক্ষতা:</strong> Generative AI পরিচিতি, কনটেন্ট ক্রিয়েশন, ডাটা অ্যানালাইসিস।</li>
+                        <li><strong>ক্যারিয়ার ডেভেলপমেন্ট:</strong> প্রফেশনাল ক্যারিয়ার প্ল্যানিং, ইন্টারভিউ প্রস্তুতি, ক্যারিয়ার গাইডলাইন।</li>
+                    </ul>
+                    <h3>কোর্স ফি:</h3>
+                    <p>খাবার-দাবার, আবাসন ও প্রশিক্ষণের জন্য মাসিক ফি - ২০ হাজার টাকা। তবে আমাদের নির্ধারিত পরিক্ষা সমূহের মার্কসের ভিত্তিতে মেধাবী ও আর্থিক অসচ্ছল শিক্ষার্থীদের ১০০% স্কলারশিপের ব্যবস্থা রয়েছে।</p>
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01409979967</strong></p>
+                `
+            },
+            {
+                id: 'course-8',
+                title: 'দি আর্ট অব ক্রিয়েশন কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>দি আর্ট অব ক্রিয়েশন কোর্স</h2>
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> এইচএসসি/আলিম/শরহে বেকায়া তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                    <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                        <li><strong>কোর্সের ধরন:</strong> আবাসিক</li>
+                        <li><strong>কোর্সের মেয়াদ:</strong> তিন মাস</li>
+                        <li><strong>ক্যাটাগরি:</strong> শুধুমাত্র পুরুষ</li>
+                    </ul>
+                    <h3>কোর্সে আপনি শিখবেন:</h3>
+                    <ul>
+                        <li>ভিডিও পরিচালনার কৌশল</li>
+                        <li>সিনেমাটোগ্রাফি</li>
+                        <li>এডিটিং</li>
+                        <li>স্ক্রিপ্ট রাইটিং</li>
+                        <li>অডিও প্রোডাকশন</li>
+                        <li>প্রাকটিক্যাল ইংলিশ</li>
+                        <li>জেনারেটিভ এআই টুলস</li>
+                        <li>মৌলিক দীনি জ্ঞান</li>
+                    </ul>
+                    <h3>কোর্স ফি এবং আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১০,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>আবাসন ও প্রশিক্ষণ ফি:</strong> ৬৫,০০০ টাকা (আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে সর্বোচ্চ ১০০% স্কলারশিপ পাওয়ার সুযোগ রয়েছে।)</li>
+                    </ul>
+                    <p><strong>⚠ ভর্তি হওয়ার পর কোর্স সম্পন্ন না করলে পুরো কোর্স ফি পরিশোধ করা বাধ্যতামূলক।</strong></p>
+                    <h3>সার্বিক যোগাযোগ:</h3>
+                    <p><strong>01409979967</strong></p>
+                `
+            },
+            {
+                id: 'course-9',
+                title: 'মোবাইল ফোন রিপেয়ার ট্রেনিং প্রোগ্রাম',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>"মোবাইল ফোন রিপেয়ার ট্রেনিং প্রোগ্রাম"</h2>
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> জে এস সি/ কাফিয়া/ জে ডি সি/ সমমানের সার্টিফিকেটধারী বা তদূর্ধ্ব</li>
+                        <li><strong>বয়স:</strong> সর্বোচ্চ ৩০ বছর</li>
+                    </ul>
+                    <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                        <li><strong>কোর্সের ধরন:</strong> আবাসিক</li>
+                        <li><strong>মেয়াদ:</strong> তিন মাস</li>
+                        <li><strong>ক্যাটাগরি:</strong> শুধুমাত্র পুরুষ</li>
+                    </ul>
+                    <h3>মূল বিষয়সমূহ:</h3>
+                    <ul>
+                        <li>মোবাইল ফোনের হার্ডওয়্যার এবং সফটওয়্যার সম্পর্কে বিস্তারিত ধারণা</li>
+                        <li>Android এবং বেসিক iPhone ফাংশন সম্পর্কে ধারণা</li>
+                        <li>Borneo and Schematic Hardware Solution Tool এর মাধ্যমে সমস্যার উৎপত্তি নির্ধারণ ও সমাধান</li>
+                        <li>মাদারবোর্ডের সকল প্রকার আইসির কাজ শেখানো হবে</li>
+                        <li>সকল প্রকার ফোনের নেটওয়ার্কের আইসি চেঞ্জ, পাওয়ার আইসি রিবলিং, Emmc রিবোলিং শেখানো হবে</li>
+                        <li>সকল রিপেয়ারিং টুলস এর হাতে কলমে প্রশিক্ষণ</li>
+                        <li>মোবাইল রিপেয়ার ও এক্সেসরিজ বিজনেস এর দক্ষ ও সফল উদ্যোক্তা হওয়ার কৌশল বা গাইডলাইন</li>
+                        <li>কাস্টমার হ্যান্ডেলিং</li>
+                        <li>NSDA সার্টিফিকেট গ্রহণের সুযোগ</li>
+                        <li>AI সম্পর্কিত ব্যবহারিক ধারণা</li>
+                    </ul>
+                    <h3>কোর্স ফি ও আবাসন:</h3>
+                    <ul>
+                        <li><strong>ভর্তি ফি:</strong> ১০,০০০ টাকা (অফেরতযোগ্য)</li>
+                        <li><strong>আবাসন ও প্রশিক্ষণ ফি:</strong> ৫০,০০০ টাকা (আর্থিক অসচ্ছলতা প্রমাণ সাপেক্ষে স্কলারশিপের সুযোগ)</li>
+                    </ul>
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01898773831</strong></p>
+                `
+            },
+            {
+                id: 'course-10',
+                title: 'রেফ্রিজারেশন অ্যান্ড এয়ারকন্ডিশনিং কোর্স',
+                short_desc: 'পুরুষ-আবাসিক, তিনমাস মেয়াদী',
+                details: `
+                    <h2>রেফ্রিজারেশন অ্যান্ড এয়ারকন্ডিশনিং কোর্স</h2>
+                    <p>সভ্যতার সাথে পাল্লা দিয়ে বাড়ছে ফ্রিজ ও এসির ব্যবহার। এই বৈশ্বিক চাহিদা মাথায় রেখেই এবার আমরা শুরু করছি রেফ্রিজারেশন অ্যান্ড এয়ারকন্ডিশনিং কোর্স। এখানে আমরা শুধু বেসিক মেরামত শেখাব না, বরং বেসিক ইলেকট্রিসিটি থেকে শুরু করে ইন্ডাস্ট্রিয়াল মোটর কন্ট্রোলিং এবং আধুনিক যন্ত্রের ত্রুটি নির্ণয়ের মতো গভীর জ্ঞানও এখানে শেখানো হবে।</p>
+                    <h3>আবেদনের যোগ্যতা:</h3>
+                    <ul>
+                        <li><strong>শিক্ষাগত যোগ্যতা:</strong> এসএসসি/কাফিয়া বা সমমান</li>
+                        <li><strong>বয়সসীমা:</strong> সর্বোচ্চ ৩৫ বছর</li>
+                    </ul>
+                    <h3>কোর্সের বিবরণ:</h3>
+                    <ul>
+                        <li><strong>কোর্সের ধরন:</strong> আবাসিক</li>
+                        <li><strong>কোর্সের মেয়াদ:</strong> ৩ মাস</li>
+                        <li><strong>ক্যাটাগরি:</strong> শুধুমাত্র পুরুষ</li>
+                    </ul>
+                    <h3>এই কোর্সে যা যা শিখবেন:</h3>
+                    <ul>
+                        <li>বেসিক ইলেকট্রিসিটি</li>
+                        <li>টিউব প্রসেসিং</li>
+                        <li>গ্যাস ওয়েলডিং/ব্রেজিং</li>
+                        <li>রেফ্রিজারেটর ও এয়ারকন্ডিশনারের বৈদ্যুতিক-যান্ত্রিক ত্রুটি শনাক্তকরণ, সার্ভিসিং ও মেনটেনেন্স</li>
+                        <li>এয়ারকন্ডিশনার ইন্সটলেশন করার দক্ষতা অর্জন করা</li>
+                        <li>পেশাগত স্বাস্থ্য-সুরক্ষা</li>
+                        <li>২০ শতাংশ তাত্ত্বিক এবং ৮০ শতাংশ ব্যাবহারিক ক্লাস</li>
+                    </ul>
+                    <h3>কোর্স ফি ও স্কলারশিপ:</h3>
+                    <p><strong>১ লক্ষ টাকা সমমূল্যের কোর্স মাত্র ১০,০০০ টাকায়।</strong></p>
+                    <p>✅ শুধুমাত্র আর্থিকভাবে অসচ্ছলদের জন্য, সচ্ছলরা তাদের সামর্থ্য অনুযায়ী ফি প্রদান করবেন। এই ফি-র মধ্যে খাবার, আবাসন ও প্রশিক্ষণ অন্তর্ভুক্ত।</p>
+                    <p>📌 <strong>উল্লেখ্য:</strong> ভর্তি হওয়ার পর কোর্স সম্পন্ন না করলে সম্পূর্ণ কোর্স ফি (১,০০,০০০ টাকা) পরিশোধ করা বাধ্যতামূলক।</p>
+                    <h3>যোগাযোগ:</h3>
+                    <p><strong>01409979967</strong></p>
+                `
+            }
+        ];
+
+        // DOM Elements
+        const views = document.querySelectorAll('.view');
+        const showCoursesBtn = document.getElementById('show-courses-btn');
+        const backToListBtn = document.getElementById('back-to-list-btn');
+        const courseGrid = document.querySelector('.course-grid');
+        const courseDetailContent = document.getElementById('course-detail-content');
+
+        function switchView(viewId) {
+            views.forEach(view => view.classList.remove('active'));
+            const activeView = document.getElementById(viewId);
+            if (activeView) {
+                activeView.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function generateCourseCards() {
+            courseGrid.innerHTML = '';
+            coursesData.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.dataset.courseId = course.id;
+                card.innerHTML = `<h3>${course.title}</h3><p>${course.short_desc}</p>`;
+                courseGrid.appendChild(card);
+            });
+        }
+
+        showCoursesBtn.addEventListener('click', () => switchView('course-list-view'));
+        backToListBtn.addEventListener('click', () => switchView('course-list-view'));
+
+        courseGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.course-card');
+            if (card) {
+                const courseId = card.dataset.courseId;
+                const course = coursesData.find(c => c.id === courseId);
+                if (course) {
+                    courseDetailContent.innerHTML = `<h3>লোড হচ্ছে...</h3>`;
+                    // Simulate a tiny delay for better UX
+                    setTimeout(() => {
+                        courseDetailContent.innerHTML = course.details;
+                        switchView('course-detail-view');
+                    }, 100);
+                }
+            }
+        });
+
+        // Initial setup
+        generateCourseCards();
+
+    </script>
+</body>
+</html>
